@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find and Replace</title>
+    <link rel="stylesheet" href="/style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+    <header>
+        <!-- <h1>Find and Replace</h1> -->
+    </header>
+    <div id="column-layout">
+        <div id="input-column" class="column">
+            <h2>1. Input</h2>
+            <textarea id="input-textarea"></textarea>
+        </div>
+        <div id="processing-column" class="column">
+            <h2>2. Processing</h2>
+            <form id="find-replace-form">
+                <label for="find-input">Find:</label>
+                <input id="find-input" type="text" class="text-input">
+                <label for="replace-input">Replace:</label>
+                <input id="replace-input" type="text" class="text-input">
+                <h3>Options</h3>
+                <label><input type="checkbox" id="case-sensitive-input"> Case Sensitive</label>
+                <label><input type="checkbox" id="whole-word-input"> Match Whole Word</label>
+                <input type="submit" id="run-button" value="Run"></button>
+            </form>
+        </div>
+        <div id="output-column" class="column">
+            <h2>3. Output</h2>
+            <textarea id="output-textarea" readonly></textarea>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+
+</html>
