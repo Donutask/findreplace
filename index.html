@@ -24,15 +24,18 @@
         <div id="processing-column" class="column">
             <h2>2. Processing</h2>
             <form id="find-replace-form">
-                <label for="find-input">Find:</label>
+                <label id="find-label" for="find-input">Find:</label>
                 <input id="find-input" type="text" class="text-input">
                 <label for="replace-input">Replace:</label>
                 <input id="replace-input" type="text" class="text-input">
                 <h3>Options</h3>
                 <label><input type="checkbox" id="case-sensitive-input"> Case Sensitive</label>
                 <label><input type="checkbox" id="whole-word-input"> Match Whole Word</label>
+                <label><input type="checkbox" id="regex-input"> Use Regex</label>
                 <input type="submit" id="run-button" value="Run"></button>
-            </form>
+                <span id="regex-error" hidden><strong>Regex Error</strong> Please write valid expression in the form
+                    <pre>/pattern/flags</pre>
+                </span>
         </div>
         <div id="output-column" class="column">
             <h2>3. Output</h2>
