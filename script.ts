@@ -65,8 +65,6 @@ function RunFindReplace(event: SubmitEvent) {
 
     const replace = replaceField.value;
 
-    console.log(regex);
-
     //Perform the regex
     try {
         const output = input.replaceAll(regex, replace);
