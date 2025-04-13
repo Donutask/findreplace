@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find and Replace</title>
+    <meta name="description" content="Super simple find and replace with no ads.">
     <link rel="stylesheet" href="style.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,29 +17,34 @@
 </head>
 
 <body>
+    <noscript>This page requires JavaScript.</noscript>
     <div id="column-layout">
         <div id="input-column" class="column">
-            <h2>1. Input</h2>
+            <label for="input-textarea">
+                <h2>1. Input</h2>
+            </label>
             <textarea id="input-textarea"></textarea>
         </div>
         <div id="processing-column" class="column">
             <h2>2. Processing</h2>
             <form id="find-replace-form">
-                <label id="find-label" for="find-input">Find:</label>
+                <label class="larger-label" id="find-label" for="find-input">Find:</label>
                 <input id="find-input" type="text" class="text-input">
-                <label for="replace-input">Replace:</label>
+                <label class="larger-label" for="replace-input">Replace:</label>
                 <input id="replace-input" type="text" class="text-input">
                 <h3>Options</h3>
-                <label><input type="checkbox" id="case-sensitive-input"> Case Sensitive</label>
-                <label><input type="checkbox" id="whole-word-input"> Match Whole Word</label>
-                <label><input type="checkbox" id="regex-input"> Use Regex</label>
+                <label class="larger-label"><input type="checkbox" id="case-sensitive-input"> Case Sensitive</label>
+                <label class="larger-label"><input type="checkbox" id="whole-word-input"> Match Whole Word</label>
+                <label class="larger-label"><input type="checkbox" id="regex-input"> Use Regex</label>
                 <input type="submit" id="run-button" value="Run"></button>
                 <span id="regex-error" hidden><strong>Regex Error</strong> Please write valid expression in the form
                     <pre>/pattern/flags</pre>
                 </span>
         </div>
         <div id="output-column" class="column">
-            <h2>3. Output</h2>
+            <label for="output-textarea">
+                <h2>3. Output</h2>
+            </label>
             <textarea id="output-textarea" readonly></textarea>
         </div>
     </div>

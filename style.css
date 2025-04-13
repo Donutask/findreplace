@@ -68,6 +68,15 @@ textarea {
     scale: 105%;
 }
 
+input[type=checkbox] {
+    transform: scale(1.85);
+    margin: 7px;
+}
+
+.larger-label {
+    font-size: 1.1em;
+}
+
 @media (max-width: 600px) {
     #column-layout {
         flex-direction: column;

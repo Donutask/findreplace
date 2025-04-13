@@ -103,6 +103,7 @@ regexCheckbox.addEventListener("change", function () {
         findLabel.textContent = "Find:";
     }
 });
+outputField.addEventListener("click", () => outputField.select());
 inputField.addEventListener("drop", FileDropped);
 inputField.addEventListener("dragover", DragOver);
 form.addEventListener("submit", RunFindReplace);
