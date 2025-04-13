@@ -46,6 +46,7 @@ function RunFindReplace(event: SubmitEvent) {
     } else {
         //Build regex query from find input and checkboxes
         let find = EscapeRegex(rawFind);
+        find = UnescapeNewLines(find);
 
         let regexFlags: string;
         if (caseSensitiveCheckbox.checked) {
@@ -63,7 +64,8 @@ function RunFindReplace(event: SubmitEvent) {
         regex = new RegExp(regexContent, regexFlags);
     }
 
-    const replace = replaceField.value;
+    let replace = replaceField.value;
+    replace = UnescapeNewLines(replace);
 
     //Perform the regex
     try {
@@ -74,6 +76,10 @@ function RunFindReplace(event: SubmitEvent) {
         regexError.hidden = false;
         throw error;
     }
+}
+
+function UnescapeNewLines(input: string): string {
+    return input.replace("\\n", "\n");
 }
 
 function EscapeRegex(s: string) {

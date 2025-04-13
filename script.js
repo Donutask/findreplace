@@ -32,6 +32,7 @@ function RunFindReplace(event) {
     }
     else {
         let find = EscapeRegex(rawFind);
+        find = UnescapeNewLines(find);
         let regexFlags;
         if (caseSensitiveCheckbox.checked) {
             regexFlags = 'g';
@@ -48,7 +49,8 @@ function RunFindReplace(event) {
         }
         regex = new RegExp(regexContent, regexFlags);
     }
-    const replace = replaceField.value;
+    let replace = replaceField.value;
+    replace = UnescapeNewLines(replace);
     try {
         const output = input.replaceAll(regex, replace);
         outputField.value = output;
@@ -58,6 +60,9 @@ function RunFindReplace(event) {
         regexError.hidden = false;
         throw error;
     }
+}
+function UnescapeNewLines(input) {
+    return input.replace("\\n", "\n");
 }
 function EscapeRegex(s) {
     return s.replace(/[/\-\\^$*+?.()|[\]{}]/g, '\\$&');
