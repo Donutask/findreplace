@@ -9,6 +9,7 @@ const caseSensitiveCheckbox = document.getElementById("case-sensitive-input");
 const wholeWordCheckbox = document.getElementById("whole-word-input");
 const regexCheckbox = document.getElementById("regex-input");
 const regexError = document.getElementById("regex-error");
+const matchCountLabel = document.getElementById("change-count");
 const dropArea = document.getElementById("file-drop-area");
 function RunFindReplace(event) {
     event.preventDefault();
@@ -24,22 +25,27 @@ function RunFindReplace(event) {
         if (match) {
             const pattern = match[1];
             const flags = match[2];
-            regex = new RegExp(pattern, flags);
+            try {
+                regex = new RegExp(pattern, flags);
+            }
+            catch (error) {
+                regexError.hidden = false;
+                throw error;
+            }
         }
         else {
-            regex = new RegExp(rawFind);
+            try {
+                regex = new RegExp(rawFind, MakeRegexFlags());
+            }
+            catch (error) {
+                regexError.hidden = false;
+                throw error;
+            }
         }
     }
     else {
         let find = EscapeRegex(rawFind);
         find = UnescapeNewLines(find);
-        let regexFlags;
-        if (caseSensitiveCheckbox.checked) {
-            regexFlags = 'g';
-        }
-        else {
-            regexFlags = 'ig';
-        }
         let regexContent;
         if (wholeWordCheckbox.checked) {
             regexContent = '\\b(' + find + ')\\b';
@@ -47,7 +53,7 @@ function RunFindReplace(event) {
         else {
             regexContent = '(' + find + ')';
         }
-        regex = new RegExp(regexContent, regexFlags);
+        regex = new RegExp(regexContent, MakeRegexFlags());
     }
     let replace = replaceField.value;
     replace = UnescapeNewLines(replace);
@@ -55,11 +61,23 @@ function RunFindReplace(event) {
         const output = input.replaceAll(regex, replace);
         outputField.value = output;
         regexError.hidden = true;
+        const matchCount = (input.match(regex) || []).length;
+        matchCountLabel.textContent = "Replacements: " + matchCount;
     }
     catch (error) {
         regexError.hidden = false;
         throw error;
     }
+}
+function MakeRegexFlags() {
+    let regexFlags;
+    if (caseSensitiveCheckbox.checked) {
+        regexFlags = 'gm';
+    }
+    else {
+        regexFlags = 'gmi';
+    }
+    return regexFlags;
 }
 function UnescapeNewLines(input) {
     return input.replace("\\n", "\n");
@@ -95,15 +113,28 @@ function GotFileText(text) {
 function DragOver(event) {
     event.preventDefault();
 }
-regexCheckbox.addEventListener("change", function () {
+function Dirty() {
+    regexError.hidden = true;
+    matchCountLabel.textContent = "";
+}
+function UpdateInterfaceForRegex() {
     if (regexCheckbox.checked) {
         findLabel.textContent = "Regular Expression:";
+        wholeWordCheckbox.disabled = true;
+        wholeWordCheckbox.checked = false;
     }
     else {
         findLabel.textContent = "Find:";
+        wholeWordCheckbox.disabled = false;
     }
+}
+regexCheckbox.addEventListener("change", function () {
+    UpdateInterfaceForRegex();
 });
+inputField.addEventListener("input", Dirty);
+form.addEventListener("input", Dirty);
 outputField.addEventListener("click", () => outputField.select());
 inputField.addEventListener("drop", FileDropped);
 inputField.addEventListener("dragover", DragOver);
 form.addEventListener("submit", RunFindReplace);
+UpdateInterfaceForRegex();

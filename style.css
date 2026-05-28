@@ -72,10 +72,20 @@ textarea {
 input[type=checkbox] {
     transform: scale(1.85);
     margin: 7px;
+    margin-right: 14px;
 }
 
 .larger-label {
     font-size: 1.1em;
+}
+
+.options-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.hidden {
+    display: none;
 }
 
 @media (max-width: 600px) {

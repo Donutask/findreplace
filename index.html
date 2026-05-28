@@ -29,13 +29,19 @@
                 <label class="larger-label" for="replace-input">Replace:</label>
                 <input id="replace-input" type="text" class="text-input">
                 <h3>Options</h3>
-                <label class="larger-label"><input type="checkbox" id="case-sensitive-input"> Case Sensitive</label>
-                <label class="larger-label"><input type="checkbox" id="whole-word-input"> Match Whole Word</label>
-                <label class="larger-label"><input type="checkbox" id="regex-input"> Use Regex</label>
+                <label class="larger-label"><input type="checkbox" id="case-sensitive-input">Case Sensitive</label>
+                <label class="larger-label"><input type="checkbox" id="whole-word-input">Match Whole Word</label>
+                <label class="larger-label"><input type="checkbox" id="regex-input">Use Regex</label>
+
                 <input type="submit" id="run-button" value="Run"></button>
-                <span id="regex-error" hidden><strong>Regex Error</strong> Please write valid expression in the form
-                    <pre>/pattern/flags</pre>
-                </span>
+
+            </form>
+
+            <span id="regex-error" hidden><strong>Regex Error</strong> Please write valid regular expression in the
+                form
+                <pre>/pattern/flags</pre>
+            </span>
+            <p id="change-count"></p>
         </div>
         <div id="output-column" class="column">
             <label for="output-textarea">

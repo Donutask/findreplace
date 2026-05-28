@@ -9,9 +9,11 @@ const replaceField = document.getElementById("replace-input") as HTMLInputElemen
 
 const caseSensitiveCheckbox = document.getElementById("case-sensitive-input") as HTMLInputElement;
 const wholeWordCheckbox = document.getElementById("whole-word-input") as HTMLInputElement;
+
 const regexCheckbox = document.getElementById("regex-input") as HTMLInputElement;
 
 const regexError = document.getElementById("regex-error") as HTMLElement;
+const matchCountLabel = document.getElementById("change-count") as HTMLElement;
 
 const dropArea = document.getElementById("file-drop-area") as HTMLElement;
 
@@ -38,22 +40,27 @@ function RunFindReplace(event: SubmitEvent) {
             const pattern = match[1];
             const flags = match[2];
 
-            regex = new RegExp(pattern, flags);
+            try {
+                regex = new RegExp(pattern, flags);
+            } catch (error) {
+                regexError.hidden = false;
+                throw error;
+            }
         } else {
-            //Not in form /pattern/flags still try, but will probably throw an error
-            regex = new RegExp(rawFind);
+            //Not in form /pattern/flags, assume it is just the pattern
+            try {
+                regex = new RegExp(rawFind, MakeRegexFlags());
+            } catch (error) {
+                regexError.hidden = false;
+                throw error;
+            }
         }
     } else {
         //Build regex query from find input and checkboxes
         let find = EscapeRegex(rawFind);
         find = UnescapeNewLines(find);
 
-        let regexFlags: string;
-        if (caseSensitiveCheckbox.checked) {
-            regexFlags = 'g';
-        } else {
-            regexFlags = 'ig';
-        }
+
         let regexContent: string;
         if (wholeWordCheckbox.checked) {
             regexContent = '\\b(' + find + ')\\b';
@@ -61,7 +68,7 @@ function RunFindReplace(event: SubmitEvent) {
             regexContent = '(' + find + ')';
         }
 
-        regex = new RegExp(regexContent, regexFlags);
+        regex = new RegExp(regexContent, MakeRegexFlags());
     }
 
     let replace = replaceField.value;
@@ -72,10 +79,23 @@ function RunFindReplace(event: SubmitEvent) {
         const output = input.replaceAll(regex, replace);
         outputField.value = output;
         regexError.hidden = true;
+
+        const matchCount = (input.match(regex) || []).length;
+        matchCountLabel.textContent = "Replacements: " + matchCount;
     } catch (error) {
         regexError.hidden = false;
         throw error;
     }
+}
+
+function MakeRegexFlags(): string {
+    let regexFlags: string;
+    if (caseSensitiveCheckbox.checked) {
+        regexFlags = 'gm';
+    } else {
+        regexFlags = 'gmi';
+    }
+    return regexFlags;
 }
 
 function UnescapeNewLines(input: string): string {
@@ -127,14 +147,32 @@ function DragOver(event: DragEvent) {
     event.preventDefault();
 }
 
-regexCheckbox.addEventListener("change", function () {
+function Dirty() {
+    regexError.hidden = true;
+    matchCountLabel.textContent = "";
+}
+
+function UpdateInterfaceForRegex() {
     if (regexCheckbox.checked) {
         findLabel.textContent = "Regular Expression:"
+        wholeWordCheckbox.disabled = true;
+        wholeWordCheckbox.checked = false;
     } else {
         findLabel.textContent = "Find:"
+        wholeWordCheckbox.disabled = false;
+
     }
+}
+
+regexCheckbox.addEventListener("change", function () {
+    UpdateInterfaceForRegex();
 });
+inputField.addEventListener("input", Dirty);
+form.addEventListener("input", Dirty);
+
 outputField.addEventListener("click", () => outputField.select());
 inputField.addEventListener("drop", FileDropped);
 inputField.addEventListener("dragover", DragOver)
 form.addEventListener("submit", RunFindReplace)
+
+UpdateInterfaceForRegex();
