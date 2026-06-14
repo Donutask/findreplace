@@ -26,6 +26,7 @@ body {
 h2 {
     text-align: center;
     font-weight: 500;
+    margin: 5px 0 20px 0;
 }
 
 h3 {
@@ -52,16 +53,18 @@ textarea {
     flex-direction: column;
 }
 
-#run-button {
+button {
     cursor: pointer;
-    border: none;
+    color: black;
+    background-color: white;
+}
+
+#run-button {
     border-radius: 15px;
     padding: 5px;
     margin-top: 10px;
     font-size: 1.5em;
     transition: 0.5s;
-    color: black;
-    background-color: white;
     box-shadow: rgba(0, 0, 0, 0.25) 2px 2px 5px;
 }
 
@@ -82,6 +85,20 @@ input[type=checkbox] {
 .options-list {
     display: flex;
     flex-direction: column;
+}
+
+.output-buttons-container {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    padding-top: 15px;
+}
+
+.output-buttons-container>button {
+    flex: 1;
+    padding: 5px;
+    box-shadow: rgba(0, 0, 0, 0.25) 1px 1px 3px;
+    border-radius: 5px;
 }
 
 .hidden {
@@ -128,5 +145,10 @@ input[type=checkbox] {
     #run-button {
         color: black;
         background-color: white;
+    }
+
+    .output-buttons-container>button {
+        color: white;
+        background-color: #444;
     }
 }

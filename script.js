@@ -128,6 +128,16 @@ function UpdateInterfaceForRegex() {
         wholeWordCheckbox.disabled = false;
     }
 }
+function ChainOutput() {
+    inputField.value = outputField.value;
+    outputField.value = "";
+    findField.value = "";
+    replaceField.value = "";
+    Dirty();
+}
+function CopyOutput() {
+    navigator.clipboard.writeText(outputField.value);
+}
 regexCheckbox.addEventListener("change", function () {
     UpdateInterfaceForRegex();
 });

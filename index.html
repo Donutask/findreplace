@@ -23,7 +23,7 @@
         </div>
         <div id="processing-column" class="column">
             <h2>2. Processing</h2>
-            <form id="find-replace-form">
+            <form id="find-replace-form" autocomplete="off">
                 <label class="larger-label" id="find-label" for="find-input">Find:</label>
                 <input id="find-input" type="text" class="text-input">
                 <label class="larger-label" for="replace-input">Replace:</label>
@@ -32,14 +32,15 @@
                 <label class="larger-label"><input type="checkbox" id="case-sensitive-input">Case Sensitive</label>
                 <label class="larger-label"><input type="checkbox" id="whole-word-input">Match Whole Word</label>
                 <label class="larger-label"><input type="checkbox" id="regex-input">Use Regex</label>
+                <!-- Todo: Describe in simple terms what a Regex is. This is hard because Regex is not simple. -->
 
                 <input type="submit" id="run-button" value="Run"></button>
-
             </form>
 
             <span id="regex-error" hidden><strong>Regex Error</strong> Please write valid regular expression in the
                 form
-                <pre>/pattern/flags</pre>
+                <code>/pattern/flags</code>
+                <small>See browser console for more details</small>
             </span>
             <p id="change-count"></p>
         </div>
@@ -48,6 +49,10 @@
                 <h2>3. Output</h2>
             </label>
             <textarea id="output-textarea" readonly></textarea>
+            <div class="output-buttons-container">
+                <button onclick="ChainOutput()">Chain</button>
+                <button onclick="CopyOutput()">Copy</button>
+            </div>
         </div>
     </div>
 
