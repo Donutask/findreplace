@@ -204,7 +204,7 @@ regexCheckbox.addEventListener("change", function () {
 inputField.addEventListener("input", Dirty);
 form.addEventListener("input", Dirty);
 
-outputField.addEventListener("click", () => outputField.select());
+// outputField.addEventListener("click", () => {outputField.select()});
 inputField.addEventListener("drop", FileDropped);
 inputField.addEventListener("dragover", DragOver)
 form.addEventListener("submit", RunFindReplace)
