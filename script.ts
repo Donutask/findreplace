@@ -15,6 +15,9 @@ const regexCheckbox = document.getElementById("regex-input") as HTMLInputElement
 const regexError = document.getElementById("regex-error") as HTMLElement;
 const matchCountLabel = document.getElementById("change-count") as HTMLElement;
 
+const chainButton = document.getElementById("chain-button") as HTMLButtonElement;
+const copyButton = document.getElementById("copy-button") as HTMLButtonElement;
+
 const dropArea = document.getElementById("file-drop-area") as HTMLElement;
 
 function RunFindReplace(event: SubmitEvent) {
@@ -28,6 +31,8 @@ function RunFindReplace(event: SubmitEvent) {
     //Nothing happens if not finding anything or no input
     if (rawFind.length <= 0 || input.length <= 0) {
         outputField.value = input;
+        UpdateOutputButtonState();
+        matchCountLabel.textContent = "Nothing Changed";
         return;
     }
 
@@ -82,6 +87,8 @@ function RunFindReplace(event: SubmitEvent) {
 
         const matchCount = (input.match(regex) || []).length;
         matchCountLabel.textContent = "Replacements: " + matchCount;
+
+        UpdateOutputButtonState();
     } catch (error) {
         regexError.hidden = false;
         throw error;
@@ -160,21 +167,36 @@ function UpdateInterfaceForRegex() {
     } else {
         findLabel.textContent = "Find:"
         wholeWordCheckbox.disabled = false;
-
     }
 }
 
+function UpdateOutputButtonState() {
+    const hasOutput = outputField.value != ""
+    chainButton.disabled = !hasOutput;
+    copyButton.disabled = !hasOutput;
+}
+
 function ChainOutput() {
+    if (!outputField.value) { return; }
     inputField.value = outputField.value;
     outputField.value = "";
     findField.value = "";
     replaceField.value = "";
     Dirty();
+    UpdateOutputButtonState();
 }
 
 function CopyOutput() {
-    navigator.clipboard.writeText(outputField.value);
+    if (!outputField.value) { return; }
+    navigator.clipboard.writeText(outputField.value).then(function () {
+        copyButton.textContent = "Copied!";
+        setTimeout(function () {
+            copyButton.textContent = "Copy";
+        }, 1000);
+    })
 }
+
+
 
 regexCheckbox.addEventListener("change", function () {
     UpdateInterfaceForRegex();
@@ -188,3 +210,4 @@ inputField.addEventListener("dragover", DragOver)
 form.addEventListener("submit", RunFindReplace)
 
 UpdateInterfaceForRegex();
+UpdateOutputButtonState();

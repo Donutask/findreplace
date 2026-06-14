@@ -101,6 +101,11 @@ input[type=checkbox] {
     border-radius: 5px;
 }
 
+.output-buttons-container>button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .hidden {
     display: none;
 }
